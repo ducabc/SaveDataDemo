@@ -7,8 +7,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    public Sound[] sounds;
-    public AudioSource audioSource;
+    public Sound[] sounds, music;
+    public AudioSource audioSource, musicSource;
 
     private void Awake()
     {
@@ -21,13 +21,23 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayMusic(string name)
     {
+        Sound s = Array.Find(music, x => x.nameClip == name);
+
+        if (s == null) Debug.Log("not found");
+        else
+        {
+            musicSource.clip = s.clip;
+            musicSource.Play();
+        }
+    }
+    public void PlaySound(string name)
+    {
         Sound s = Array.Find(sounds, x => x.nameClip == name);
 
         if (s == null) Debug.Log("not found");
         else
         {
-            audioSource.clip = s.clip;
-            audioSource.Play();
+            audioSource.PlayOneShot(s.clip);
         }
     }
 
